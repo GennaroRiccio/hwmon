@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "gennaro.hwmon",
+  "name": "HW Monitor",
+  "version": "1.0.0",
+  "description": "Live CPU/MEM/NET sparkline panel for Omarchy.",
+  "kinds": ["panel"],
+  "entryPoints": {
+    "panel": "Hwmon.qml"
+  }
+}
