@@ -7,6 +7,7 @@ with a keybind and samples `/proc` while visible.
 
 <p><img src="demo/hwmon.png">
 </p>
+
 ## Features
 
 - **CPU** — usage from a `/proc/stat` delta (two snapshots 0.15 s apart).
