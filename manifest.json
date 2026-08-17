@@ -3,8 +3,13 @@
   "id": "gennaro.hwmon",
   "name": "HW Monitor",
   "version": "1.0.0",
+  "author": "Gennaro Riccio",
+  "license": "MIT",
   "description": "Live CPU/MEM/NET sparkline panel for Omarchy.",
-  "kinds": ["panel"],
+  "kinds": [
+    "panel"
+  ],
+  "activation": "on-demand",
   "entryPoints": {
     "panel": "Hwmon.qml"
   }
