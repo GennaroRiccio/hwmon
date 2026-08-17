@@ -5,10 +5,8 @@ process** — no separate Quickshell instance, no build step, no extra runtime
 dependencies. A small floating panel (400x394, top-right corner) that toggles
 with a keybind and samples `/proc` while visible.
 
-<p align="center">
-  <video src="demo/hwmon.mp4" controls width="720"></video>
+<p><img src="demo/hwmon.png">
 </p>
-
 ## Features
 
 - **CPU** — usage from a `/proc/stat` delta (two snapshots 0.15 s apart).
