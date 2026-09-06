@@ -4,7 +4,7 @@
 #   install.sh               install: copy this folder to
 #                            ~/.config/omarchy/plugins/gennaro.hwmon/, enable
 #                            it (rescan + poll), add a Hyprland window rule
-#                            (float, 400x394, top-right corner) and a SUPER+F5
+#                            (float, 420x640 max, top-right corner) and a SUPER+F5
 #                            keybind toggling the plugin.
 #   install.sh uninstall     uninstall: disable + remove the plugin and strip
 #                            the "-- [hwmon-plugin]" blocks from the Hyprland
@@ -24,7 +24,7 @@ PLUGINS_DIR="$HOME/.config/omarchy/plugins"
 DEST="$PLUGINS_DIR/$ID"
 HYPR_DIR="$HOME/.config/hypr"
 
-FILES=(manifest.json Hwmon.qml GraphRow.qml Sparkline.qml)
+FILES=(manifest.json Hwmon.qml GraphRow.qml Sparkline.qml PieChart.qml)
 
 BEGIN="-- [hwmon-plugin] managed by install.sh"
 END="-- [hwmon-plugin end]"
@@ -182,11 +182,10 @@ omarchy plugin enable "$ID"
 
 [[ -f "$HYPR_DIR/hyprland.lua" ]] || { echo "install.sh: $HYPR_DIR/hyprland.lua not found" >&2; exit 1; }
 
-# Window rule: float, 400x394, top-right corner. `move` uses Omarchy's table
-# form with monitor/window variables (the string form `100%-w-20` is not
-# honoured by the hyprland-lua bridge on this Hyprland build).
+# Window rule: float, 420x640 max (collapses to ~460), top-right corner.
+# `move` uses Omarchy's table form (string form 100%-w-20 is ignored by the bridge).
 replace_block "$HYPR_DIR/hyprland.lua" \
-  'o.window({ title = "^(HW Monitor)$" }, { float = true, size = { 400, 394 }, move = { "(monitor_w-window_w-20)", "(20)" } })'
+  'o.window({ title = "^(HW Monitor)$" }, { float = true, size = { 420, 640 }, move = { "(monitor_w-window_w-20)", "(20)" } })'
 
 # SUPER+F5 toggles the plugin panel.
 replace_block "$HYPR_DIR/bindings.lua" \

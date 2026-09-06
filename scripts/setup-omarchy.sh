@@ -4,7 +4,7 @@
 # Wires ~/Work/hwmon into Omarchy's Hyprland config:
 #   1. autostart.lua   - launch the widget at login (optional --start-hidden)
 #   2. bindings.lua    - SUPER+F5 toggle via scripts/toggle.sh
-#   3. hyprland.lua    - float + size 400x394 + center window rules
+#   3. hyprland.lua    - float + size 420x640 + top-right window rules
 #
 # Idempotent and marker-based: each file gets a `-- [hwmon] ... -- [hwmon end]`
 # block that is replaced in place on re-runs, so it is safe to run again after
@@ -118,7 +118,7 @@ replace_block "$HYPR_DIR/bindings.lua" \
 
 # --- 3. window rules ---------------------------------------------------------
 replace_block "$HYPR_DIR/hyprland.lua" \
-  'o.window({ title = "^(HW Monitor)$" }, { float = true, size = { 400, 394 }, move = { "(monitor_w-window_w-20)", "(20)" } })'
+  'o.window({ title = "^(HW Monitor)$" }, { float = true, size = { 420, 640 }, move = { "(monitor_w-window_w-20)", "(20)" } })'
 
 # --- validate ----------------------------------------------------------------
 echo "== reloading Hyprland config"

@@ -1,23 +1,21 @@
 # HW Monitor — Omarchy panel plugin
 
-Live CPU / MEM / NET sparkline monitor running **inside the omarchy-shell
-process** — no separate Quickshell instance, no build step, no extra runtime
-dependencies. A small floating panel (400x394, top-right corner) that toggles
-with a keybind and samples `/proc` while visible.
+Live CPU / MEM / NET monitor running **inside the omarchy-shell
+process** — no separate Quickshell instance, no build step. A floating panel
+(420 wide, 460 collapsed / 640 expanded, top-right corner) with per-metric
+**pie + sparkline** and an expandable **process list**. Samples `/proc` while
+visible, hidden = plugin unloaded.
 
 <p><img src="demo/hwmon.png">
 </p>
 
 ## Features
 
-- **CPU** — usage from a `/proc/stat` delta (two snapshots 0.15 s apart).
-- **MEM** — used memory from `/proc/meminfo`.
-- **NET** — real-time transfer from cumulative `/proc/net/dev` counters,
-  loopback excluded so localhost chatter doesn't count as traffic.
-- Self-contained palette — no dependency on Omarchy's `qs.Commons`/`qs.Ui`
-  singletons, all colors live in `Hwmon.qml`.
-- Power-friendly — while the panel is hidden the whole plugin is unloaded, so
-  no probe timers run in the background.
+- **Pie + trend per metric** — doughnut `PieChart` (Canvas) shows current %; `Sparkline` shows the last 90 s of history (repaints only on reassignment via spread + slice).
+- **CPU** — usage from a `/proc/stat` delta (two snapshots 0.15 s apart) · **MEM** — from `/proc/meminfo` · **NET** — from cumulative `/proc/net/dev` counters, loopback excluded; `netPercent` = peak ↓/↑ vs `netScale` (1024 KB/s).
+- **Processi attivi** — toggle button expands an 8-row list from `ps -eo pid,comm,%cpu,%mem` (poll 2 s, only when expanded), with CPU/MEM % and a mini CPU bar.
+- Self-contained palette — no dependency on Omarchy's `qs.Commons`/`qs.Ui`, all colors live in `Hwmon.qml`/`PieChart.qml`.
+- Power-friendly — hidden = plugin unloaded, no timers run in background.
 
 ## Requirements
 
@@ -31,11 +29,12 @@ with a keybind and samples `/proc` while visible.
 
 ```
 manifest.json   plugin manifest: id "gennaro.hwmon", kinds: ["panel"]
-Hwmon.qml       entry point: Item root + the "HW Monitor" FloatingWindow
-GraphRow.qml    one labelled sparkline row (shared with the standalone widget)
-Sparkline.qml   Canvas repaint helper (repaints only on series reassignment)
+Hwmon.qml       entry point: Item root + FloatingWindow (pie + trend + process list)
+PieChart.qml    doughnut Canvas (0..100 %, track + arc)
+GraphRow.qml    (legacy) labelled row — kept for standalone compat
+Sparkline.qml   Canvas sparkline (repaints only on series reassignment)
 install.sh      install/uninstall helper that also wires up Hyprland
-demo/           demo recording
+demo/           demo recording (hwmon.mp4 / hwmon.png)
 ```
 
 ## Install
@@ -93,15 +92,14 @@ o.bind("SUPER + F5", "HW Monitor", "omarchy-shell shell toggle gennaro.hwmon")
 
 ## Window rules
 
-The window is a `FloatingWindow` titled `HW Monitor` (400x394). Hyprland tiles
+The window is a `FloatingWindow` titled `HW Monitor` (420 wide, 460 collapsed / 640 expanded). Hyprland tiles
 it by default, so the rule in `~/.config/hypr/hyprland.lua` is:
 
 ```lua
-o.window({ title = "^(HW Monitor)$" }, { float = true, size = { 400, 394 }, move = { "(monitor_w-window_w-20)", "(20)" } })
+o.window({ title = "^(HW Monitor)$" }, { float = true, size = { 420, 640 }, move = { "(monitor_w-window_w-20)", "(20)" } })
 ```
 
-This keeps it floating at 400x394 in the **top-right corner** with a 20px
-margin. `install.sh` applies this automatically.
+This keeps it floating at the **top-right corner** with a 20px margin (size is the max; collapsed state leaves extra paper at the bottom). `install.sh` applies this automatically.
 
 > **Gotcha:** the `move` table form with `monitor_w`/`window_w` variables is
 > required. The string form `move = "100%-w-20 20"` is silently ignored by the

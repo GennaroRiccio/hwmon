@@ -13,7 +13,7 @@ import Quickshell
 // The window is a normal floating window; Hyprland tiles it by default,
 // so add rules to keep it at its intended size, top-right corner:
 //   windowrule = float,  title:^(HW Monitor)$
-//   windowrule = size 400 394, title:^(HW Monitor)$
+//   windowrule = size 420 640, title:^(HW Monitor)$   // 460 collapsed, 640 expanded
 //   windowrule = move 100%-w-20 20, title:^(HW Monitor)$
 // (On Omarchy's Lua config use o.window's table form instead — see
 // scripts/setup-omarchy.sh.)
