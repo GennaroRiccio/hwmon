@@ -6,8 +6,7 @@ process** — no separate Quickshell instance, no build step. A floating panel
 **pie + sparkline** and an expandable **process list**. Samples `/proc` while
 visible, hidden = plugin unloaded.
 
-<p><img src="demo/hwmon.png">
-</p>
+<p><img src="demo/hwmon.png"></p>
 
 ## Features
 
