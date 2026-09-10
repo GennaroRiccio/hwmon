@@ -2,3 +2,4 @@ repomix-output.xml
 *.bak.*
 .bak.*
 oc.sh
+/backup
